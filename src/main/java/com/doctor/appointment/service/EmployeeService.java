@@ -1,10 +1,13 @@
 package com.doctor.appointment.service;
 
 import com.doctor.appointment.dto.CreateEmployeeDto;
+import com.doctor.appointment.dto.EmployeeHobbyDto;
 import com.doctor.appointment.model.Company;
 import com.doctor.appointment.model.Employee;
+import com.doctor.appointment.model.Hobby;
 import com.doctor.appointment.repository.CompanyRepository;
 import com.doctor.appointment.repository.EmployeeRepository;
+import com.doctor.appointment.repository.HobbyRepository;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,31 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private HobbyRepository hobbyRepository;
+
+    public ResponseEntity<Object> addHobbyToEmployee(EmployeeHobbyDto employeeHobbyDto){
+
+        long employeeId = employeeHobbyDto.getEmployeeId();
+        long hobbyId = employeeHobbyDto.getHobbyId();
+
+        Optional<Hobby> optionalHobby = hobbyRepository.findById(hobbyId);
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+
+        if(optionalEmployee.isPresent() && optionalHobby.isPresent()){
+            Employee employee = optionalEmployee.get();
+            Hobby hobby = optionalHobby.get();
+
+            employee.addHobbyToEmployee(hobby);
+            employeeRepository.save(employee);
+
+            return new ResponseEntity<>("saved", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
+        }
+    }
 
     public ResponseEntity<Object> getEmployeeById(Long id){
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);

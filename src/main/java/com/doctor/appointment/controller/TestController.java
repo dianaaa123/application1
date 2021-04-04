@@ -1,9 +1,6 @@
 package com.doctor.appointment.controller;
 
-import com.doctor.appointment.dto.CompanyDto;
-import com.doctor.appointment.dto.CreateEmployeeDto;
-import com.doctor.appointment.dto.DoctorDto;
-import com.doctor.appointment.dto.EmployeeDto;
+import com.doctor.appointment.dto.*;
 import com.doctor.appointment.repository.EmployeeRepository;
 import com.doctor.appointment.service.CompanyService;
 import com.doctor.appointment.service.DoctorService;
@@ -25,6 +22,11 @@ public class TestController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @PostMapping("/addHobby")
+    public ResponseEntity<Object> addHobbyToEmployee(@RequestBody EmployeeHobbyDto employeeHobbyDto){
+        return employeeService.addHobbyToEmployee(employeeHobbyDto);
+    }
 
     @PostMapping("/createCompany")
     public String createCompany(@RequestBody CompanyDto companyDto){
