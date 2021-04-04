@@ -21,7 +21,7 @@ public class Employee {
     private Set<Hobby> hobbySet = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="profileImage_id", referencedColumnName = "id")
+    @JoinColumn(name="profile_image_id", referencedColumnName = "id")
     private Media profileImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
