@@ -12,6 +12,6 @@ public class CustomEntityNotFoundException extends Exception{
     }
 
     public String getErrorMessage(){
-        return entity.toUpperCase() + "_NOTFOUND";
+        return entity.toUpperCase() + "_NOT_FOUND";
     }
 }

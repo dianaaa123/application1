@@ -23,6 +23,13 @@ public class Media {
         this.name = name;
     }
 
+    public Media(String path, String name, String type, Long date) {
+        this.path = path;
+        this.name = name;
+        this.type = type;
+        this.date = date;
+    }
+
     public Long getId() {
         return id;
     }

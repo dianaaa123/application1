@@ -10,6 +10,6 @@ public class CustomConflictException  extends Exception{
     }
 
     public String getErrorMessage(){
-        return "error";
+        return conflict;
     }
 }

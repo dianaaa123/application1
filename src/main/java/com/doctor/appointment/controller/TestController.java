@@ -5,11 +5,15 @@ import com.doctor.appointment.repository.EmployeeRepository;
 import com.doctor.appointment.service.CompanyService;
 import com.doctor.appointment.service.DoctorService;
 import com.doctor.appointment.service.EmployeeService;
+import com.doctor.appointment.service.MediaService;
+import com.doctor.appointment.util.HttpStatusHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.doctor.appointment.util.HttpStatusHelper.success;
 
 @RestController
 public class TestController {
@@ -23,6 +27,23 @@ public class TestController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private MediaService mediaService;
+
+    @Autowired
+    private HttpStatusHelper httpStatusHelper;
+
+    @PostMapping("/addPicture")
+    public ResponseEntity<Object> addPictureToEmployee(@RequestParam String fileName,
+                                                       @RequestParam Long employeeId,
+                                                       @RequestParam String type){
+        try {
+            return success("ok", mediaService.addMediaToEmployee(fileName, employeeId, type));
+        }catch(Exception e){
+            return httpStatusHelper.commonErrorMethod(e);
+        }
+    }
+
     @PostMapping("/addHobby")
     public ResponseEntity<Object> addHobbyToEmployee(@RequestBody EmployeeHobbyDto employeeHobbyDto){
         return employeeService.addHobbyToEmployee(employeeHobbyDto);
@@ -35,7 +56,7 @@ public class TestController {
 
     @PostMapping("/createEmployee")
     public ResponseEntity<Object> createEmployee(@RequestBody CreateEmployeeDto createEmployeeDto){
-        return employeeService.createEmployeeAndAsignToCompany(createEmployeeDto);
+        return success("employee", employeeService.createEmployeeAndAsignToCompany(createEmployeeDto));
     }
 
     @GetMapping("/getCompanyByName")
@@ -44,8 +65,14 @@ public class TestController {
     }
 
     @GetMapping("/getEmployee/{id}")
-    public ResponseEntity<Object> getEmployeeById(@PathVariable Long id){
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity<Object> getEmployeeById(@PathVariable Long id) throws Exception {
+        try{
+            return success("employee"
+                    ,employeeService.getEmployeeById(id));
+        }
+        catch(Exception e){
+            return httpStatusHelper.commonErrorMethod(e);
+        }
     }
 
     @GetMapping("/getAll")

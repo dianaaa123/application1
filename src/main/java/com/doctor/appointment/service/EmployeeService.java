@@ -2,6 +2,7 @@ package com.doctor.appointment.service;
 
 import com.doctor.appointment.dto.CreateEmployeeDto;
 import com.doctor.appointment.dto.EmployeeHobbyDto;
+import com.doctor.appointment.exception.CustomEntityNotFoundException;
 import com.doctor.appointment.model.Company;
 import com.doctor.appointment.model.Employee;
 import com.doctor.appointment.model.Hobby;
@@ -51,15 +52,15 @@ public class EmployeeService {
         }
     }
 
-    public ResponseEntity<Object> getEmployeeById(Long id){
+    public Employee getEmployeeById(Long id) throws Exception {
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
 
         if(optionalEmployee.isPresent()){
              Employee employee = optionalEmployee.get();
 
-             return new ResponseEntity<>(employee, HttpStatus.OK);
+             return employee;
         }
-        return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
+        throw new CustomEntityNotFoundException(Employee.class);
 
     }
 

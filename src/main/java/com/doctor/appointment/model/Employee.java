@@ -52,8 +52,7 @@ public class Employee {
     public void setName(String name) {
         this.name = name;
     }
-
-    @JsonIgnore
+    
     public Company getCompany() {
         return company;
     }
@@ -85,4 +84,5 @@ public class Employee {
     public void deleteHobbyFromEmployee(Hobby hobby){
         this.hobbySet.remove(hobby);
     }
+
 }

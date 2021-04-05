@@ -46,7 +46,7 @@ public class Company {
         this.name = name;
     }
 
-    //@JsonIgnore
+    @JsonIgnore
     public List<Employee> getEmployeeList() {
         return employeeList;
     }
